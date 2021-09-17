@@ -1,6 +1,5 @@
 import os
 import random
-
 import numpy as np
 import torch
 
@@ -18,7 +17,8 @@ def seed_torch(seed: int):
 
 
 def seed_everything(seed: int):
-    """Call this function at the begining of your script to ensure reproducibility. 
+    """
+    Call this function at the begining of your script to ensure reproducibility
     Args:
         seed (int): desired seed
     """
