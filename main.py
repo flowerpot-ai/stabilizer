@@ -118,7 +118,6 @@ def main():
     )
 
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-    device_name = "cuda" if torch.cuda.is_available() else "cpu"
 
     # Read training data
     train_data = pd.read_json(
