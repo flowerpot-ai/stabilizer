@@ -1,6 +1,5 @@
 import os
 import random
-
 import numpy as np
 import torch
 
@@ -18,11 +17,12 @@ def seed_torch(seed: int):
 
 
 def seed_everything(seed: int):
-    """Call this function at the begining of your script to ensure reproducibility. 
+    """
+    Call this function at the begining of your script to ensure reproducibility
     Args:
         seed (int): desired seed
     """
     random.seed(seed)
-    os.environ['PYTHONASSEED'] = str(seed)
+    os.environ["PYTHONASSEED"] = str(seed)
     np.random.seed(seed)
     seed_torch()
