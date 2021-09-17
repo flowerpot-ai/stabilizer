@@ -23,6 +23,6 @@ def seed_everything(seed: int):
         seed (int): desired seed
     """
     random.seed(seed)
-    os.environ['PYTHONASSEED'] = str(seed)
+    os.environ["PYTHONASSEED"] = str(seed)
     np.random.seed(seed)
     seed_torch()
