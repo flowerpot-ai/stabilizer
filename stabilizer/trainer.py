@@ -1,5 +1,6 @@
 import torch
 
+
 def train_step(model, inputs, targets, loss_fn, optimizer, scheduler):
     model.train()
     # forward pass
@@ -10,7 +11,7 @@ def train_step(model, inputs, targets, loss_fn, optimizer, scheduler):
     loss.backward()
     optimizer.step()
     scheduler.step()
-    return {'loss': loss}
+    return {"loss": loss}
 
 
 def evaluate_step(model, inputs, targets, loss_fn):
@@ -19,4 +20,4 @@ def evaluate_step(model, inputs, targets, loss_fn):
     with torch.no_grad():
         predictions = model(inputs)
         loss = loss_fn(predictions, targets)
-    return {'loss': loss, 'targets': targets, 'predictions': predictions}
+    return {"loss": loss, "targets": targets, "predictions": predictions}

@@ -3,7 +3,14 @@ from stabilizer.reproducibility import seed_torch
 
 
 class PoolerClassifier(nn.Module):
-    def __init__(self, transformer, transformer_output_size, transformer_output_dropout_prob, num_classes, task_specific_layer_seed=None):
+    def __init__(
+        self,
+        transformer,
+        transformer_output_size,
+        transformer_output_dropout_prob,
+        num_classes,
+        task_specific_layer_seed=None,
+    ):
         super(PoolerClassifier, self).__init__()
         self.transformer = transformer
         self.transformer_output_size = transformer_output_size
