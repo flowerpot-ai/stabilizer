@@ -130,3 +130,6 @@ dmypy.json
 
 # Data files
 data
+
+# Model files
+models
