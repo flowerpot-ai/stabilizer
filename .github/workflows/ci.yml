@@ -44,6 +44,6 @@ jobs:
         black --check .
     - name: Run flake8
       run: flake8
-   - name: tests
-      run: python -m unittest tests
-      working-directory: test
+    - name: tests
+        run: python -m unittest tests
+        working-directory: test
