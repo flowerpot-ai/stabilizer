@@ -128,5 +128,17 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# VScode
+vscode/*
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+*.code-workspace
+
 # Data files
 data
+
+# Model files
+models
+
