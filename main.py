@@ -38,17 +38,17 @@ config = {'train_data_path': 'data/glue/cola/train.jsonl',
           'num_epochs': 3,
           'validate_every_n_iteration': 10,
           'dataloader_seed': 41,
-          'task_specific_layer_seed': 1000,
+          'layer_initialization_seed': 1000,
           'dropout_seed': 1234,
           'reinit_encoder': True,
           'reinit_num_layers': 4,
           'apply_llrd': True,
           'multiplicative_factor': 0.95}
 
-python main.py --train_data_path data/glue/cola/train.jsonl --valid_data_path data/glue/cola/train.jsonl --batch_size 32 \
+python main.py --train_data_path data/glue/cola/train.jsonl --valid_data_path data/glue/cola/valid.jsonl --batch_size 32 \
     --pretrained_tokenizer_name_or_path models/bert-base-uncased --pretrained_model_name_or_path models/bert-base-uncased \
-    --device_name cpu --dropout_prob 0.1 --num_classes 1 --lr 2e-5 --num_epochs 3 --validate_every_n_iteration 10 \
-    --dataloader_seed 41 --task_specific_layer_seed 1000 --dropout_seed 1234 --reinit_encoder True --reinit_num_layers 4 \
+    --device_name cuda --dropout_prob 0.1 --num_classes 1 --lr 2e-5 --num_epochs 3 --validate_every_n_iteration 10 \
+    --dataloader_seed 41 --layer_initialization_seed 1000 --dropout_seed 1234 --reinit_encoder True --reinit_num_layers 4 \
     --apply_llrd True --multiplicative_factor 0.95
 """
 
@@ -95,7 +95,7 @@ def parse_args():
         "--dropout_seed", type=int, default=random.randint(a=0, b=10000)
     )
     parser.add_argument(
-        "--task_specific_layer_seed", type=int, default=random.randint(a=0, b=10000)
+        "--layer_initialization_seed", type=int, default=random.randint(a=0, b=10000)
     )
     parser.add_argument(
         "--dataloader_seed", type=int, default=random.randint(a=0, b=10000)
@@ -156,7 +156,6 @@ def run():
     valid_data = pd.read_json(
         path_or_buf=config["valid_data_path"], lines=True
     ).set_index("idx")
-    logger.info("Here")
 
     # Prepate data to create dataset
     train_text_excerpts = train_data["text"].tolist()
@@ -204,6 +203,7 @@ def run():
 
     # Reinitialize
     if config["reinit_encoder"]:
+        seed_torch(config["layer_initialization_seed"])
         transformer.encoder = reinit_autoencoder_model(
             transformer.encoder, reinit_num_layers=config["reinit_num_layers"]
         )
@@ -213,7 +213,7 @@ def run():
         transformer_output_size=transformer.config.hidden_size,
         transformer_output_dropout_prob=config["dropout_prob"],
         num_classes=config["num_classes"],
-        task_specific_layer_seed=config["task_specific_layer_seed"],
+        task_specific_layer_seed=config["layer_initialization_seed"],
     )
 
     device = torch.device(config["device_name"])
