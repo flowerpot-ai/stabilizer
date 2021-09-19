@@ -2,8 +2,14 @@ import logging
 import transformers
 from torch import nn
 
-AUTOENCODINGMODELS = ["Bert", "Roberta", "DistilBert", "Albert", "XLMRoberta",
-                      "BertModel"]
+AUTOENCODINGMODELS = [
+    "Bert",
+    "Roberta",
+    "DistilBert",
+    "Albert",
+    "XLMRoberta",
+    "BertModel",
+]
 
 
 def reinit_autoencoder_model(encoder, reinit_num_layers=0):
