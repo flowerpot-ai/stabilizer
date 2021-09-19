@@ -45,4 +45,5 @@ jobs:
     - name: Run flake8
       run: flake8
    - name: tests
-      run: python -m unittest tests/*.py
+      run: python -m unittest tests
+      working-directory: test
