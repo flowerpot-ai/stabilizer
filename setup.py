@@ -20,7 +20,7 @@ setuptools.setup(
     name="stabilizer",  # Replace with your own username
     version="1.0.0",
     author="flowerpot-ai",
-    author_email="",
+    author_email="vignesh.sbaskaran@gmail.com",
     description="Stabilize and achieve excellent performance with transformers",
     long_description_content_type="text/markdown",
     long_description=long_description,
