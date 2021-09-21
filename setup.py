@@ -18,7 +18,7 @@ except FileNotFoundError:
 
 setuptools.setup(
     name="stabilizer",  # Replace with your own username
-    version="1.0.0",
+    version="1.0.2",
     author="flowerpot-ai",
     author_email="vignesh.sbaskaran@gmail.com",
     description="Stabilize and achieve excellent performance with transformers",
@@ -31,7 +31,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.7",
     install_requires=required,
     include_package_data=True,
 )
