@@ -16,9 +16,7 @@ class TestReinitialize(unittest.TestCase):
             hidden_dropout_prob=0.1,
             attention_probs_dropout_prob=0.1,
         )
-        transformer.encoder = reinit_autoencoder_model(
-            transformer.encoder, reinit_num_layers=1
-        )
+        transformer.encoder = reinit_autoencoder_model(transformer.encoder, reinit_num_layers=1)
         model = PoolerClassifier(
             transformer=transformer,
             transformer_output_size=transformer.config.hidden_size,
@@ -30,9 +28,7 @@ class TestReinitialize(unittest.TestCase):
         for module in model.transformer.encoder.layer[-1].modules():
 
             if isinstance(module, nn.Linear):
-                k = torch.isclose(
-                    module.weight.data.mean(), torch.tensor(0.0), atol=1e-4
-                )
+                k = torch.isclose(module.weight.data.mean(), torch.tensor(0.0), atol=1e-4)
                 v = torch.isclose(
                     module.weight.data.std().detach().cpu(),
                     torch.tensor(0.02),
@@ -40,12 +36,7 @@ class TestReinitialize(unittest.TestCase):
                 )
                 vals.append(k.cpu().numpy())
                 vals.append(v.cpu().numpy())
-                vals.append(
-                    all(
-                        module.bias.data.detach().cpu()
-                        == torch.zeros(module.bias.data.shape)
-                    )
-                )
+                vals.append(all(module.bias.data.detach().cpu() == torch.zeros(module.bias.data.shape)))
 
         self.assertEqual(all(vals), True)
 
