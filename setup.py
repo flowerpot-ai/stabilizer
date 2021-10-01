@@ -17,7 +17,7 @@ except FileNotFoundError:
     required = []
 
 setuptools.setup(
-    name="stabilizer", 
+    name="stabilizer",
     version="1.0.2",
     author="flowerpot-ai",
     author_email="vignesh.sbaskaran@gmail.com",
