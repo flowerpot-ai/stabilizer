@@ -54,15 +54,9 @@ python main.py --train_data_path data/glue/cola/train.jsonl --valid_data_path da
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(
-        description="Train a Pooler classifier on CoLA dataset"
-    )
-    parser.add_argument(
-        "--train_data_path", type=str, help="Path of the training data file"
-    )
-    parser.add_argument(
-        "--valid_data_path", type=str, help="Path of the validation data file"
-    )
+    parser = argparse.ArgumentParser(description="Train a Pooler classifier on CoLA dataset")
+    parser.add_argument("--train_data_path", type=str, help="Path of the training data file")
+    parser.add_argument("--valid_data_path", type=str, help="Path of the validation data file")
     parser.add_argument(
         "--pretrained_tokenizer_name_or_path",
         type=str,
@@ -88,18 +82,10 @@ def parse_args():
     )
     parser.add_argument("--lr", type=float, help="Learning rate")
     parser.add_argument("--num_epochs", type=int, help="Number of training epochs")
-    parser.add_argument(
-        "--validate_every_n_iteration", type=int, help="How often to validate"
-    )
-    parser.add_argument(
-        "--dropout_seed", type=int, default=random.randint(a=0, b=10000)
-    )
-    parser.add_argument(
-        "--layer_initialization_seed", type=int, default=random.randint(a=0, b=10000)
-    )
-    parser.add_argument(
-        "--dataloader_seed", type=int, default=random.randint(a=0, b=10000)
-    )
+    parser.add_argument("--validate_every_n_iteration", type=int, help="How often to validate")
+    parser.add_argument("--dropout_seed", type=int, default=random.randint(a=0, b=10000))
+    parser.add_argument("--layer_initialization_seed", type=int, default=random.randint(a=0, b=10000))
+    parser.add_argument("--dataloader_seed", type=int, default=random.randint(a=0, b=10000))
     parser.add_argument(
         "--reinit_encoder",
         type=bool,
@@ -150,30 +136,18 @@ def run():
     config = parse_args().__dict__
 
     # Read training data
-    train_data = pd.read_json(
-        path_or_buf=config["train_data_path"], lines=True
-    ).set_index("idx")
-    valid_data = pd.read_json(
-        path_or_buf=config["valid_data_path"], lines=True
-    ).set_index("idx")
+    train_data = pd.read_json(path_or_buf=config["train_data_path"], lines=True).set_index("idx")
+    valid_data = pd.read_json(path_or_buf=config["valid_data_path"], lines=True).set_index("idx")
 
     # Prepate data to create dataset
     train_text_excerpts = train_data["text"].tolist()
     valid_text_excerpts = valid_data["text"].tolist()
-    train_labels = torch.from_numpy(train_data["label"].to_numpy().reshape(-1, 1)).type(
-        torch.float32
-    )
-    valid_labels = torch.from_numpy(valid_data["label"].to_numpy().reshape(-1, 1)).type(
-        torch.float32
-    )
+    train_labels = torch.from_numpy(train_data["label"].to_numpy().reshape(-1, 1)).type(torch.float32)
+    valid_labels = torch.from_numpy(valid_data["label"].to_numpy().reshape(-1, 1)).type(torch.float32)
 
     # Create Dataset
-    train_dataset = TextLabelDataset(
-        text_excerpts=train_text_excerpts, labels=train_labels
-    )
-    valid_dataset = TextLabelDataset(
-        text_excerpts=valid_text_excerpts, labels=valid_labels
-    )
+    train_dataset = TextLabelDataset(text_excerpts=train_text_excerpts, labels=train_labels)
+    valid_dataset = TextLabelDataset(text_excerpts=valid_text_excerpts, labels=valid_labels)
 
     # Create DataLoader
     generator = torch.Generator(device="cpu")
@@ -192,9 +166,7 @@ def run():
     )
 
     # Create tokenizer and model
-    tokenizer = AutoTokenizer.from_pretrained(
-        config["pretrained_tokenizer_name_or_path"]
-    )
+    tokenizer = AutoTokenizer.from_pretrained(config["pretrained_tokenizer_name_or_path"])
     transformer = AutoModel.from_pretrained(
         pretrained_model_name_or_path=config["pretrained_model_name_or_path"],
         hidden_dropout_prob=config["dropout_prob"],
@@ -291,15 +263,9 @@ def run():
                 valid_loss = loss_fn(valid_predictions, valid_targets)
                 valid_targets = post_process_targets(valid_targets)
                 valid_predictions = post_process_predictions(valid_predictions)
-                valid_score = compute_matthews_corrcoef(
-                    targets=valid_targets, predictions=valid_predictions
-                )
-                logger.info(
-                    f"Iteration num: {iteration_num}, Train loss: {train_outputs['loss']}"
-                )
-                logger.info(
-                    f"Iteration num: {iteration_num}, Valid loss: {valid_loss}, Valid score: {valid_score}"
-                )
+                valid_score = compute_matthews_corrcoef(targets=valid_targets, predictions=valid_predictions)
+                logger.info(f"Iteration num: {iteration_num}, Train loss: {train_outputs['loss']}")
+                logger.info(f"Iteration num: {iteration_num}, Valid loss: {valid_loss}, Valid score: {valid_score}")
             iteration_num += 1
 
 

@@ -25,15 +25,11 @@ def reinit_autoencoder_model(encoder, reinit_num_layers=0):
             for module in layer.modules():
 
                 if isinstance(module, nn.Linear):
-                    module.weight.data.normal_(
-                        mean=0.0, std=encoder.config.initializer_range
-                    )
+                    module.weight.data.normal_(mean=0.0, std=encoder.config.initializer_range)
                     if module.bias is not None:
                         module.bias.data.zero_()
                 elif isinstance(module, nn.Embedding):
-                    module.weight.data.normal_(
-                        mean=0.0, std=encoder.config.initializer_range
-                    )
+                    module.weight.data.normal_(mean=0.0, std=encoder.config.initializer_range)
                     if module.padding_idx is not None:
                         module.weight.data[module.padding_idx].zero_()
                 elif isinstance(module, nn.LayerNorm):
