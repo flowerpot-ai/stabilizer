@@ -3,12 +3,8 @@ def get_optimizer_parameters_with_llrd(model, peak_lr, multiplicative_factor):
     # Task specific layer gets the peak_lr
     tsl_parameters = [
         {
-            "params": [
-                param for name, param in model.task_specific_layer.named_parameters()
-            ],
-            "param_names": [
-                name for name, param in model.task_specific_layer.named_parameters()
-            ],
+            "params": [param for name, param in model.task_specific_layer.named_parameters()],
+            "param_names": [name for name, param in model.task_specific_layer.named_parameters()],
             "lr": peak_lr,
             "name": "tsl_param_group",
         }
@@ -30,12 +26,8 @@ def get_optimizer_parameters_with_llrd(model, peak_lr, multiplicative_factor):
     # Embedding layer gets embedding layer lr = first encoder layer lr * multiplicative_factor
     embedding_parameters = [
         {
-            "params": [
-                param for name, param in model.transformer.embeddings.named_parameters()
-            ],
-            "param_names": [
-                name for name, param in model.transformer.embeddings.named_parameters()
-            ],
+            "params": [param for name, param in model.transformer.embeddings.named_parameters()],
+            "param_names": [name for name, param in model.transformer.embeddings.named_parameters()],
             "lr": peak_lr * (multiplicative_factor ** (num_encoder_layers + 1)),
             "name": "embeddings_param_group",
         }
