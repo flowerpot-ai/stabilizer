@@ -74,3 +74,10 @@ from transformers import AdamW, AutoModel
 
 Here is the result of the same model but with LLRD applied on the CoLA dataset. Here you can see that the model has diverged quite a lot by applying LLRD. Therefore as we discussed earlier their is no universal remedy yet but some techniques work well on some datasets
 ![llrd_random_seed](https://i.ibb.co/jkLJSP0/llrd-dropout-seed.png)
+
+## Conbtributing to this repository
+There are three possible ways by which people can contribute to this repository:
+1. Adding more techniques for stabilizing the training
+2. Write example scripts to train new datasets with the already implemented stabilization techniques
+3. Adding tensorflow/jax equivalent codes for the existing Pytorch code
+
